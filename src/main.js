@@ -1,7 +1,11 @@
 const express = require('express');
-const server =express();
+const mongoose =require('mongoose');
+const routes = require('./routes');
 
-server.get('/', (req, res)=>{
- return res.json({mensagem:` Olá  ${req.query.name}`} );
-})
+const server =express();
+mongoose.connect('mongodb+srv://@cluster0-ep2yc.mongodb.net/dev1?retryWrites=true&w=majority',{useNewUrlParser: true});
+
+server.use(express.json());
+server.use(routes);
+
 server.listen(3333);
