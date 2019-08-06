@@ -2,6 +2,24 @@ const axios =require('axios');
 const Dev = require('../models/Dev');
 module.exports={
 
+   // listar os devs
+    async index( req, res){
+      const {user}= req.headers;
+      const loggledDev= await Dev.findById(user);
+
+      const users = await Dev.find({
+        $and:[
+            {_id:{$ne:user} },
+            { _id: {$nin:loggledDev.likes} },
+            { _id: {$nin:loggledDev.dislikes} }
+        ]
+
+      })
+
+      res.json(users);
+
+    },
+    // Criar objeto DEV
      async store(req, res){
      const {username}= req.body;
 
